@@ -15,7 +15,7 @@ export default function Weather(props) {
       wind: responce.data.wind.speed,
       humidity: responce.data.temperature.humidity,
       description: responce.data.condition.description,
-      iconUrl: `https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png`,
+      icon: responce.data.weather[0].icon,
     });
 
     setReady(true);
@@ -32,7 +32,7 @@ export default function Weather(props) {
 
   function search() {
     const apiKey = "9t257307ca476845c0efc0e5f24o9bc3";
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
     axios.get(apiUrl).then(handleResponce);
   }
 
