@@ -4,21 +4,21 @@ import WeatherInfo from "./WeatherInfo";
 import "./Weather.css";
 
 export default function Weather(props) {
-  const [ready, setReady] = useState(false);
-  const [weatherData, setWeatherData] = useState({});
+  const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
-  function handleResponce(responce) {
-    setWeatherData({
-      city: responce.data.city,
-      date: new Date(responce.data.time * 1000),
-      temperature: responce.data.temperature.current,
-      wind: responce.data.wind.speed,
-      humidity: responce.data.temperature.humidity,
-      description: responce.data.condition.description,
-      icon: responce.data.weather[0].icon,
-    });
 
-    setReady(true);
+  function handleResponse(response) {
+    setWeatherData({
+      ready: true,
+      coordinates: response.data.coord,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      date: new Date(response.data.dt * 1000),
+      description: response.data.weather[0].description,
+      icon: response.data.weather[0].icon,
+      wind: response.data.wind.speed,
+      city: response.data.name,
+    });
   }
 
   function handleSubmit(event) {
@@ -31,12 +31,13 @@ export default function Weather(props) {
   }
 
   function search() {
-    const apiKey = "9t257307ca476845c0efc0e5f24o9bc3";
-    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(handleResponce);
+    const apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    axios.get(apiUrl).then(handleResponse);
   }
 
-  if (ready) {
+  if (weatherData.ready) {
     return (
       <div className="Weather">
         <form onSubmit={handleSubmit}>

@@ -33,8 +33,9 @@
   line-height: 19px;
 }
 
-.Weather img {
+.Weather canvas {
   margin-right: 6px;
+  margin-top: 5px;
   height: 64px;
   width: 64px;
 }
